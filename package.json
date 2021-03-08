@@ -1,6 +1,6 @@
 {
   "name": "typing-practice",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Practice your typing skills",
   "main": "app.js",
   "scripts": {
