@@ -22,6 +22,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/word", (req, res) => {
+  res.header("Access-Control-Allow-Origin", "*");
   const wordAmount = Number(req.query.amount);
 
   if (req.query.language.toUpperCase() == "ENGLISH") {
