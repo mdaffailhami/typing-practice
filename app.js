@@ -21,13 +21,13 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/pages/index/index.html");
 });
 
-app.get("/text", (req, res) => {
-  const textAmount = Number(req.query.amount);
+app.get("/word", (req, res) => {
+  const wordAmount = Number(req.query.amount);
 
   if (req.query.language.toUpperCase() == "ENGLISH") {
-    res.json({ language: "English", words: randomWordsInEnglish(textAmount) });
+    res.json({ language: "English", words: randomWordsInEnglish(wordAmount) });
   } else {
-    res.json({ language: "Indonesian", words: randomWordsInIndonesian(textAmount) });
+    res.json({ language: "Indonesian", words: randomWordsInIndonesian(wordAmount) });
   }
 });
 

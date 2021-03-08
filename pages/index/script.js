@@ -14,26 +14,43 @@ const queryString = new URLSearchParams(window.location.search);
 
 // Memanggil teks ke API
 async function getWords() {
-  const textAmount = 30;
+  const wordAmount = 25;
   let language = queryString.get("language");
 
-  return await fetch(`/text?language=${language}&amount=${textAmount}`)
+  // Styling language button
+  if (
+    language == null ||
+    language.toUpperCase() == "INDONESIAN" ||
+    language.toUpperCase() == "INDONESIA"
+  ) {
+    elements.languageButton.innerHTML = "Indonesian";
+    elements.languageMenu.innerHTML = `<a class="dropdown-item" href="/?language=english">English</a>`;
+  }
+
+  return await fetch(`/word?language=${language}&amount=${wordAmount}`)
     .then((res) => res.json())
     .then((res) => {
-      const language = res.language;
       const words = res.words;
-
-      elements.languageButton.innerHTML = language;
-      if (language.toUpperCase() == "ENGLISH") {
-        elements.languageMenu.innerHTML = `<a class="dropdown-item" href="/?language=indonesian">Indonesian</a>`;
-      }
 
       // Hilangkan loader
       elements.typingTextBox.innerHTML = "";
 
       return words;
     })
-    .catch((err) => console.warn(err));
+    .catch((err) => {
+      if (
+        language == null ||
+        language.toUpperCase() == "INDONESIAN" ||
+        language.toUpperCase() == "INDONESIA"
+      ) {
+        // Jika bahasa Indonesia
+        elements.typingTextBox.innerHTML = '<span class="text-danger">Gagal memuat teks!</span>';
+      } else {
+        // Jika bahasa Inggris
+        elements.typingTextBox.innerHTML = '<span class="text-danger">Failed to load text!</span>';
+      }
+      console.warn(err);
+    });
 }
 
 // Memasukkan seluruh isi texts yg telah di call ke variabel
@@ -61,7 +78,7 @@ loadTexts();
 let start = false;
 let timer = 0;
 let textIndex = 0;
-elements.typingInput.addEventListener("keydown", (event) => {
+elements.typingInput.addEventListener("keyup", (event) => {
   // Start timer
   if (!start) {
     start = true;
@@ -74,52 +91,7 @@ elements.typingInput.addEventListener("keydown", (event) => {
     }, 1000);
   }
 
-  texts.then((texts) => {
-    const textElements = document.querySelectorAll(
-      "#typing-container section #typing-text-box span"
-    );
-
-    const inputValue = elements.typingInput.value;
-
-    // Ketika mencet spasi
-    if (event.key == " ") {
-      // Jika kata yg diketikkan itu benar
-      if (inputValue === texts[textIndex]) {
-        if (textIndex == texts.length - 1) {
-          const charTyped = texts.join(" ").length + 1; // + 1 karena spasi di paling akhir juga termasuk
-
-          const averageCPM = Math.floor((60 * charTyped) / timer);
-          if (queryString.get("language").toUpperCase() == "ENGLISH") {
-            alert(
-              `Total characters = ${charTyped}\nTotal time          = ${timer} second\nAverage             = ${averageCPM} characters per minute`
-            );
-          } else {
-            alert(
-              `Total karakter = ${charTyped}\nTotal waktu     = ${timer} detik\nRata-rata        = ${averageCPM} karakter per menit`
-            );
-          }
-          location.reload();
-        } else {
-          // Menghandel style pada texts
-          textElements[textIndex + 1].classList.add("bg-gray");
-        }
-        // Menghandel style pada texts
-        textElements[textIndex].classList.remove("bg-gray", "bg-danger");
-        textElements[textIndex].classList.add("btn-success");
-
-        // Mengincrement
-        textIndex++;
-
-        // Mereset inputan
-        setTimeout(() => {
-          elements.typingInput.value = "";
-        });
-      }
-    }
-  });
-});
-
-elements.typingInput.addEventListener("keyup", (event) => {
+  // Menghandle inputan
   texts.then((texts) => {
     const textElements = document.querySelectorAll(
       "#typing-container section #typing-text-box span"
@@ -130,15 +102,52 @@ elements.typingInput.addEventListener("keyup", (event) => {
     const currentText = texts[textIndex];
 
     for (let i = 0; i < inputValue.length; i++) {
-      // Jika yg diketikkan itu salah
       if (inputValue[i] != currentText[i]) {
+        // Jika yg diketikkan itu salah
         textElements[textIndex].classList.add("bg-danger");
-        break;
-      }
-      // Jika yg diketikkan itu benar
-      else {
+      } else {
+        // Jika yg diketikkan itu benar
         textElements[textIndex].classList.remove("bg-danger");
       }
+    }
+
+    if (inputValue.includes(" ") && inputValue == currentText + " ") {
+      if (textIndex == texts.length - 1) {
+        const charTyped = texts.join(" ").length + 1; // + 1 karena spasi di paling akhir juga termasuk
+
+        // Hasil akhir
+        const averageCPM = Math.floor((60 * charTyped) / timer);
+        if (
+          queryString.get("language") == null ||
+          queryString.get("language").toUpperCase() == "INDONESIAN" ||
+          queryString.get("language").toUpperCase() == "INDONESIA"
+        ) {
+          // Jika bahasa Indonesia
+          alert(
+            `Total karakter = ${charTyped}\nTotal waktu     = ${timer} detik\nRata-rata        = ${averageCPM} karakter per menit`
+          );
+        } else {
+          // Jika bahasa Inggris
+          alert(
+            `Total characters = ${charTyped}\nTotal time          = ${timer} second\nAverage             = ${averageCPM} characters per minute`
+          );
+        }
+        location.reload();
+      } else {
+        // Menghandel style pada texts
+        textElements[textIndex + 1].classList.add("bg-gray");
+      }
+      // Menghandel style pada texts
+      textElements[textIndex].classList.remove("bg-gray", "bg-danger");
+      textElements[textIndex].classList.add("btn-success");
+
+      // Mengincrement
+      textIndex++;
+
+      // Mereset inputan
+      setTimeout(() => {
+        elements.typingInput.value = "";
+      });
     }
   });
 });
