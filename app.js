@@ -13,14 +13,15 @@ const randomWordsInIndonesian = require("./my_node_modules/random-words-indonesi
 
 const app = express();
 
-app.use("/pages", express.static("pages"));
+app.use(express.static("pages"));
 
-app.get("/file", (req, res) => {
-  res.sendFile(__dirname + "/" + req.query.path);
-});
+// app.get("/file", (req, res) => {
+//   res.sendFile(__dirname + "/" + req.query.path);
+// });
 
 app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/pages/index/index.html");
+  // res.sendFile("index.html");
+  res.redirect("https://typing-practice.netlify.app/");
 });
 
 app.get("/word", (req, res) => {
