@@ -24,10 +24,10 @@ async function getWords() {
     language.toUpperCase() == "INDONESIA"
   ) {
     elements.languageButton.innerHTML = "Indonesian";
-    elements.languageMenu.innerHTML = `<a class="dropdown-item" href="/?language=english">English</a>`;
+    elements.languageMenu.innerHTML = `<a class="dropdown-item" href="https://typing--practice.herokuapp.com/?language=english">English</a>`;
   }
 
-  return await fetch(`/word?language=${language}&amount=${wordAmount}`)
+  return await fetch(`https://typing--practice.herokuapp.com/word?language=${language}&amount=${wordAmount}`)
     .then((res) => res.json())
     .then((res) => {
       const words = res.words;
