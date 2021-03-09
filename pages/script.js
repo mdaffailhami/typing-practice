@@ -113,7 +113,7 @@ elements.typingInput.addEventListener("keyup", (event) => {
       }
     }
 
-    if (inputValue.includes(" ") && inputValue == currentText + " ") {
+    if (inputValue.includes(currentText + " ")) {
       if (textIndex == texts.length - 1) {
         const charTyped = texts.join(" ").length + 1; // + 1 karena spasi di paling akhir juga termasuk
 
