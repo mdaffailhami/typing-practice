@@ -13,6 +13,8 @@ const randomWordsInIndonesian = require("./my_node_modules/random-words-indonesi
 
 const app = express();
 
+app.use("/pages", express.static("pages"));
+
 app.get("/file", (req, res) => {
   res.sendFile(__dirname + "/" + req.query.path);
 });
