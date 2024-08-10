@@ -1,3 +1,9 @@
+![](https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif)
+
+**Try Typing Practice here: [https://typing-practice.netlify.app](https://typing-practice.netlify.app)**
+
+![](https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif)
+
 # Typing Practice
 
 Typing Practice is a web application designed to help users improve their typing skills through interactive exercises. Built with modern web technologies, this app offers various typing tests and drills to enhance speed and accuracy. Ideal for both beginners and experienced typists, Typing Practice provides a user-friendly interface and real-time feedback to track progress and performance.
@@ -10,12 +16,6 @@ Typing Practice is a web application designed to help users improve their typing
 ## Technologies Used
 - HTML, CSS, JavaScript
 - Bootstrap
-
-![](https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif)
-
-**Try Typing Practice here: [https://typing-practice.netlify.app](https://typing-practice.netlify.app)**
-
-![](https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif)
 
 ## Contributing
 
